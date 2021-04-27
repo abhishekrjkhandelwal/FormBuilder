@@ -1,0 +1,28 @@
+<div class="main-div">
+<mat-card>
+  <mat-card-header>Form Builder</mat-card-header>
+  <br />
+  <br />
+  <form [formGroup] = "formBuilderForm" id="formBuilderForm">
+    <mat-form-field>
+        <input matInput name="name" formControlName="name" type="name" placeholder="Enter Username" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.name.touched) && formBuilderForm.controls.name.errors }" />
+          <mat-error>
+            <div *ngIf="formBuilderForm.value.name.length != 0">
+              <div *ngIf="((submitted || formBuilderForm.controls.name.touched) && formBuilderForm.controls.name.errors)" class="invalid-input"></div>
+            </div>
+            <div *ngIf="formBuilderForm.controls.name.errors?.required">name is required && only 20 characters allowed</div>
+          </mat-error>
+      </mat-form-field>
+    <mat-form-field class="email">
+      <input matInput name="email" formControlName="email" type="text" placeholder="E-Mail" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.email.touched) && formBuilderForm.controls.email.errors }" />
+      <mat-error>
+        <div *ngIf="formBuilderForm.value.email.length != 0">
+          <div *ngIf="((submitted || formBuilderForm.controls.email.touched) && formBuilderForm.controls.email.errors),"  class="invalid-input">Enter Valid Email Id</div>
+        </div>
+        <div *ngIf="formBuilderForm.controls.email.errors?.required">Email is required</div>
+      </mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="postFormData();" [disabled]="(formBuilderForm.value.length === 0)" type="submit">Login</button>
+  </form>
+</mat-card>
+</div>
