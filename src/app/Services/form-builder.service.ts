@@ -12,16 +12,17 @@ export class FormBuilderService {
 
   constructor(private http: HttpClient) { }
 
-  baseUrl = '/api';
+  baseUrl = 'http://localhost:3000/api';
 
   // API for get form data by form builder
-  getFormData(): Observable<Form[]> {
-    return this.http.get<Form[]>(this.baseUrl + '/get-form-data')
+  getFormData(): Observable<any> {
+    return this.http.get<any>(this.baseUrl + '/get-form-data')
     .pipe(catchError(this.errorHandler));
   }
 
   // API for post data from formbuilder
   postFormData(formData: Form): Observable<Form[]> {
+    console.log('----->', formData);
     return this.http.post<Form[]>(this.baseUrl + '/post-form-data', formData)
        .pipe(catchError(this.errorHandler));
    }

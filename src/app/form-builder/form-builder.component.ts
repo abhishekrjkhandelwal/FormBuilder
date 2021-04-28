@@ -12,6 +12,7 @@ export class FormBuilderComponent implements OnInit {
 
   public formBuilderForm!: FormGroup;
   public submitted = false;
+  public formData: any = [];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,9 +24,13 @@ export class FormBuilderComponent implements OnInit {
       name: ['', [Validators.required, Validators.maxLength(20),  Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]],
       email: ['', [Validators.required,   Validators.pattern(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,63})$/)]],
     });
+    this.getData();
   }
 
   postFormData(): void {
+
+    console.log(this.formBuilderForm.value);
+
     if (this.formBuilderForm.invalid) {
       console.log('Enter valid credentials');
       return;
@@ -39,7 +44,9 @@ export class FormBuilderComponent implements OnInit {
   getData(): void {
      // tslint:disable-next-line: deprecation
      this.formBuilderService.getFormData().subscribe(data => {
-       console.log(data);
+      this.formData = data.posts;
+      console.log('------>', this.formData);
+      console.log(data);
      });
   }
 }

@@ -22,7 +22,26 @@
         <div *ngIf="formBuilderForm.controls.email.errors?.required">Email is required</div>
       </mat-error>
     </mat-form-field>
-    <button mat-raised-button color="primary" (click)="postFormData();" [disabled]="(formBuilderForm.value.length === 0)" type="submit">Login</button>
+    <button mat-raised-button color="primary" (click)="postFormData();" [disabled]="(formBuilderForm.value.length === 0)" type="submit">Send</button>
   </form>
 </mat-card>
 </div>
+
+<br />
+<br />
+
+<table class="styled-table" style="margin-left: 35%;">
+   <thead>
+     <th>ID</th>
+     <th>Name</th>
+     <th>Email</th>
+   </thead>
+
+   <tbody>
+     <tr *ngFor = "let formdata of formData">
+        <td>{{ formdata._id }}</td>
+        <td>{{ formdata.name }}</td>
+        <td>{{ formdata.email }}</td>   
+     </tr>
+   </tbody>
+</table>

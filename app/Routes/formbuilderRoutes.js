@@ -1,20 +1,33 @@
 let express  = require('express');
 const router = express.Router();
-const fromBuilderService = require('../services/userservice');
+const FormBuilder = require('../Models/FormBuilderData');
+const mongoose = require('mongoose');
 
-
-// API for get Form Data
-router.get('/get-form-data', (req, res) => {
-    fromBuilderService.getFromData(req.query, (data) => {
-      res.send(data);
-    });
-});
 
  /** Api for post form data */
 router.post('/post-form-data', (req, res) => {
-    fromBuilderService.postFormData(req.body, (data) => {
-        res.send(data);
+    const formBuilder = new FormBuilder({
+        _id:  new mongoose.Types.ObjectId(),
+        name: req.body.name,
+        email: req.body.email
     });
+    formBuilder.save().then(result => {
+        console.log(result);
+    })
+    .catch(err => console.log(err));
+});
+
+// API for get Form Data
+router.get('/get-form-data', (req, res) => {
+    FormBuilder.find()
+        .then(documents => {
+            console.log(documents);
+            res.status(200).json({
+                message: "Form Is created",
+                posts: documents
+            })
+        })
+        .catch(err => console.log(err));
 });
 
 module.exports = router;
