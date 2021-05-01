@@ -7,12 +7,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MaterialModule } from './material.module';
 import { HttpClientModule } from '@angular/common/http';
-
+import { formBuilderDialogPage } from './form-builder/formBuilderDialogBox.component';
+import {MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FormBuilderComponent
+    FormBuilderComponent,
+    formBuilderDialogPage,
   ],
   imports: [
     BrowserModule,
@@ -21,9 +23,10 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     MaterialModule,
     BrowserAnimationsModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+
 })
 export class AppModule { }

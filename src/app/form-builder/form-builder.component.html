@@ -4,7 +4,7 @@
   <br />
   <br />
   <form [formGroup] = "formBuilderForm" id="formBuilderForm">
-    <mat-form-field>
+    <mat-form-field>  
         <input matInput name="name" formControlName="name" type="name" placeholder="Enter Username" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.name.touched) && formBuilderForm.controls.name.errors }" />
           <mat-error>
             <div *ngIf="formBuilderForm.value.name.length != 0">
@@ -13,6 +13,7 @@
             <div *ngIf="formBuilderForm.controls.name.errors?.required">name is required && only 20 characters allowed</div>
           </mat-error>
       </mat-form-field>
+
     <mat-form-field class="email">
       <input matInput name="email" formControlName="email" type="text" placeholder="E-Mail" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.email.touched) && formBuilderForm.controls.email.errors }" />
       <mat-error>
@@ -22,26 +23,58 @@
         <div *ngIf="formBuilderForm.controls.email.errors?.required">Email is required</div>
       </mat-error>
     </mat-form-field>
+
+    <input type="radio" formControlName="gender" value="male" required> Male
+    <input type="radio" formControlName="gender" value="female"required> Female
+
+    <mat-form-field class="number">
+      <input matInput name="adhaarNumber" formControlName="adhaarNumber" type="number" placeholder="Adhaar Number" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.adhaarNumber.touched) && formBuilderForm.controls.adhaarNumber.errors }" />
+      <mat-error>
+        <div *ngIf="formBuilderForm.value.adhaarNumber.length === 0">
+          <div *ngIf="((submitted || formBuilderForm.controls.adhaarNumber.touched) && formBuilderForm.controls.adhaarNumber.errors),"  class="invalid-input">Enter Valid Adhaar Number</div>
+        </div>
+        <div *ngIf="formBuilderForm.controls.adhaarNumber.errors?.required">Adhaar Number is required</div>
+      </mat-error>
+    </mat-form-field>
+
+     <select id="country" formControlName="country">
+       <option *ngFor="let c of countries" [ngValue]="c">{{ c }}</option>
+     </select>
+
+    <br />
+    <br />
     <button mat-raised-button color="primary" (click)="postFormData();" [disabled]="(formBuilderForm.value.length === 0)" type="submit">Send</button>
   </form>
+
+
 </mat-card>
 </div>
 
 <br />
 <br />
 
-<table class="styled-table" style="margin-left: 35%;">
+<table class="styled-table">
    <thead>
      <th>ID</th>
      <th>Name</th>
      <th>Email</th>
+     <th>Gender</th>
+     <th>Adhaar Number</th>
+     <th>Country</th>
+     <th>Update</th>
+     <th>Delete</th>
    </thead>
 
    <tbody>
      <tr *ngFor = "let formdata of formData">
         <td>{{ formdata._id }}</td>
         <td>{{ formdata.name }}</td>
-        <td>{{ formdata.email }}</td>   
+        <td>{{ formdata.email }}</td>
+        <td>{{ formdata.gender }}</td>
+        <td>{{ formdata.adhaarNumber }}</td>
+        <td>{{ formdata.country }}</td>
+        <td><button id="update" (click)="openformBuilderDialog($event, formdata.name)">Update</button></td>
+        <td><button>Delete</button></td>   
      </tr>
    </tbody>
 </table>

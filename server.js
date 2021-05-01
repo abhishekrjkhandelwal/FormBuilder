@@ -1,6 +1,7 @@
 const express = require('express');
 let formBuilderRoute = require('./app/Routes/formbuilderRoutes');
 const mongoose  = require('mongoose');
+var config = require('./config/dbConfig');
 
 const app = express();
 
@@ -14,14 +15,14 @@ const app = express();
 
     const password = encodeURIComponent('abhishek');;
 
-    mongoose.connect(`mongodb+srv://formbuilder:${password}@cluster0.hosyj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true  
-    }).then(() => {
-      console.log('Conntected to database!');
-    })
-    .catch(() => {
-      console.log('Connection failed');
+    mongoose.connect(config.dbUrl);
+    mongoose.connection.on('connected', () => {
+      console.log('connected to mongo database');
+    },
+    );
+
+    mongoose.connection.on('error', err => {
+      console.log('Error at MongoDB: ' + err);
     });
 
     app.use(bodyParser.json());
@@ -42,8 +43,8 @@ const app = express();
         next();
       });
 
-//server listens to port 3000 
-app.listen(3000, (err)=>{ 
-  if(err) 
-  throw err; 
-  }); 
+    //server listens to port 3000 
+    app.listen(3000, (err)=>{ 
+      if(err) 
+      throw err; 
+      }); 

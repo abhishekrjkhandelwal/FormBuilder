@@ -1,0 +1,51 @@
+<mat-icon class="pull-right close-icon" id="aclose" (click)="onCloseDialog()">close</mat-icon>
+
+<div class="main-div">
+    <mat-card>
+        <h4>Update</h4>
+        <br />
+        <br />
+
+        <form [formGroup] = "formBuilderForm" id="formBuilderForm" (ngSubmit)="updateFormBuilderByName($event)">
+            <mat-form-field>  
+                <input matInput name="name" formControlName="name" type="name" placeholder="Enter Username" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.name.touched) && formBuilderForm.controls.name.errors }" />
+                  <mat-error>
+                    <div *ngIf="formBuilderForm.value.name.length != 0">
+                      <div *ngIf="((submitted || formBuilderForm.controls.name.touched) && formBuilderForm.controls.name.errors)" class="invalid-input"></div>
+                    </div>
+                    <div *ngIf="formBuilderForm.controls.name.errors?.required">name is required && only 20 characters allowed</div>
+                  </mat-error>
+              </mat-form-field>
+        
+            <mat-form-field class="email">
+              <input matInput name="email" formControlName="email" type="text" placeholder="E-Mail" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.email.touched) && formBuilderForm.controls.email.errors }" />
+              <mat-error>
+                <div *ngIf="formBuilderForm.value.email.length != 0">
+                  <div *ngIf="((submitted || formBuilderForm.controls.email.touched) && formBuilderForm.controls.email.errors),"  class="invalid-input">Enter Valid Email Id</div>
+                </div>
+                <div *ngIf="formBuilderForm.controls.email.errors?.required">Email is required</div>
+              </mat-error>
+            </mat-form-field>
+        
+            <input type="radio" formControlName="gender" value="male" required> Male
+            <input type="radio" formControlName="gender" value="female"required> Female
+        
+            <mat-form-field class="number">
+              <input matInput name="adhaarNumber" formControlName="adhaarNumber" type="number" placeholder="Adhaar Number" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.adhaarNumber.touched) && formBuilderForm.controls.adhaarNumber.errors }" />
+              <mat-error>
+                <div *ngIf="formBuilderForm.value.adhaarNumber.length === 0">
+                  <div *ngIf="((submitted || formBuilderForm.controls.adhaarNumber.touched) && formBuilderForm.controls.adhaarNumber.errors),"  class="invalid-input">Enter Valid Adhaar Number</div>
+                </div>
+                <div *ngIf="formBuilderForm.controls.adhaarNumber.errors?.required">Adhaar Number is required</div>
+              </mat-error>
+            </mat-form-field>
+        
+             <select id="country" formControlName="country">
+               <option *ngFor="let c of countries" [ngValue]="c">{{ c }}</option>
+             </select>
+        
+            <br />
+            <br />
+            <button mat-raised-button color="primary"  [disabled]="(formBuilderForm.value.length === 0)" type="submit">Send</button>
+          </form>        
+</mat-card>

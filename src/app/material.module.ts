@@ -15,7 +15,7 @@ import { MatIconModule  } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { MatRadioModule } from '@angular/material/radio';
 
 import { NgModule } from '@angular/core';
 const MATERIAL_MODULES = [
@@ -35,7 +35,8 @@ const MATERIAL_MODULES = [
   MatTableModule,
   MatToolbarModule,
   MatMenuModule,
-  MatDialogModule
+  MatDialogModule,
+  MatRadioModule
 ];
 
 @NgModule({

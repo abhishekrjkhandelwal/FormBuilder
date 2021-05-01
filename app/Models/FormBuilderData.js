@@ -1,9 +1,21 @@
 const mongoose =  require('mongoose');
 
-const formBuilderSchema =  mongoose.Schema({
-    _id: mongoose.Schema.Types.ObjectId,
+const userSchema =  mongoose.Schema({
     name: {type: String, required: true},
-    email: {type: String, required: true }
 });
 
-module.exports = mongoose.model('FormBuilder', formBuilderSchema)
+const formBuilderSchema = mongoose.Schema({
+    name: {type: String, required: true }, 
+    email: {type: String, required: true},
+    gender: {type: String},
+    adhaarNumber: {type: String, required: true},
+    country: {type: String}
+});
+
+const User =  mongoose.model('User', userSchema, 'user');
+const userDetails =  mongoose.model('FormBuilder', formBuilderSchema, 'userDetails');
+
+module.exports = {
+    User: User,
+    userDetails: userDetails
+}

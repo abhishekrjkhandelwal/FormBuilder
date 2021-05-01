@@ -1,5 +1,8 @@
 export class Form {
-    id?: number;
+    fid?: number;
     name?: string;
     email?: string;
+    gender?: string;
+    adhaarNumber?: string;
+    country?: string;
 }
