@@ -20,10 +20,11 @@ const app = express();
       console.log('connected to mongo database');
     },
     );
-
     mongoose.connection.on('error', err => {
       console.log('Error at MongoDB: ' + err);
     });
+   
+    mongoose.Promise = global.Promise;
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));

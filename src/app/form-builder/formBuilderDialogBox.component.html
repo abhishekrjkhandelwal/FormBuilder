@@ -31,7 +31,7 @@
             <input type="radio" formControlName="gender" value="female"required> Female
         
             <mat-form-field class="number">
-              <input matInput name="adhaarNumber" formControlName="adhaarNumber" type="number" placeholder="Adhaar Number" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.adhaarNumber.touched) && formBuilderForm.controls.adhaarNumber.errors }" />
+              <input matInput name="adhaarNumber" formControlName="adhaarNumber"  placeholder="Adhaar Number" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.adhaarNumber.touched) && formBuilderForm.controls.adhaarNumber.errors }" />
               <mat-error>
                 <div *ngIf="formBuilderForm.value.adhaarNumber.length === 0">
                   <div *ngIf="((submitted || formBuilderForm.controls.adhaarNumber.touched) && formBuilderForm.controls.adhaarNumber.errors),"  class="invalid-input">Enter Valid Adhaar Number</div>

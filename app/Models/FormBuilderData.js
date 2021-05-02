@@ -7,7 +7,7 @@ const userSchema =  mongoose.Schema({
 const formBuilderSchema = mongoose.Schema({
     name: {type: String, required: true }, 
     email: {type: String, required: true},
-    gender: {type: String},
+    gender: {type: String,  required: true},
     adhaarNumber: {type: String, required: true},
     country: {type: String}
 });

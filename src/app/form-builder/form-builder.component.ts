@@ -19,6 +19,7 @@ import { mimeType } from './mime-type.validator';
 
 export class FormBuilderComponent implements OnInit {
 
+  public emailList: string[] = [];
   public formBuilderForm!: FormGroup;
   public submitted = false;
   public formData: any = [];
@@ -37,14 +38,14 @@ export class FormBuilderComponent implements OnInit {
 
   ngOnInit(): void {
     this.formBuilderForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.maxLength(20),  Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]],
-      email: ['', [Validators.required,   Validators.pattern(/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,63})$/)]],
+      name: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(1) , Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]],
+      email: ['', [Validators.required, Validators.minLength(1),  Validators.pattern(/^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},?)+$/)]],
       gender: new  FormControl('male'),
-      adhaarNumber: ['', [Validators.required]],
+      adhaarNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}$/)]],
       country: new FormControl(null),
        image: new FormControl(null,
         {
-          validators:  [Validators.required], 
+          validators:  [Validators.required],
           asyncValidators: [mimeType]
         }),
     });
@@ -53,9 +54,22 @@ export class FormBuilderComponent implements OnInit {
     this.getData();
   }
 
+  extractEmailList(e: string) {
+    this.emailList = [];
+    if (this.formBuilderForm.valid) {
+       const emails = e.split(', ');
+       emails.forEach(email => {
+         if (email && email.length > 0) {
+           this.emailList.push(email);
+         }
+       });
+    }
+    console.log('emailList', this.emailList);
+  }
+
   postFormData(): void {
     console.log(this.formBuilderForm.value);
-    
+
     // tslint:disable-next-line: deprecation
     this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(data => {
         console.log(data);

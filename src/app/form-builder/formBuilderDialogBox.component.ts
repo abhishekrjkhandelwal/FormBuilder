@@ -55,5 +55,5 @@ export class formBuilderDialogPage implements OnInit {
                  this.userName = data.posts.name;
                  console.log(data.posts[0].name);
                 });
-             }
+        }
 }
