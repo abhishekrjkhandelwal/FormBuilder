@@ -39,15 +39,15 @@ export class FormBuilderService {
       .pipe(tap(data => JSON.stringify(Form), catchError(this.errorHandler)));
    }
 
-   // http client api for delete user by id
-   deleteFormDataByName(id: number) {
-      return this.http.delete(this.baseUrl + '/delete-form-data?id=' + id)
-      .pipe(tap(data => JSON.stringify(id), catchError(this.errorHandler)));
+    // http client api for delete user by id
+    deleteFormDataByName(name: string) {
+      return this.http.delete(this.baseUrl + '/delete-form-data-by-name?name=' + name)
+      .pipe(tap(data => JSON.stringify(data), catchError(this.errorHandler)));
     }
 
     setUserName(userName: string) {
        this.userName = userName;
-    } 
+    }
 
     getUserName() {
        return this.userName;

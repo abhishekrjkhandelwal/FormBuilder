@@ -87,8 +87,25 @@ const updateData = (req, res) => {
     );
 }
 
+const deleteData = (req, res) => {
+    const user = new schema.User({
+        name: req.query.name,
+    });   
+
+    console.log('name', req.query.name);
+
+    schema.userDetails.deleteMany({name: req.query.name}, function(err) {
+        if(err) {
+            throw err;
+        } else {
+            console.log("deleted");
+        }
+    });
+}
+
 module.exports = {
     postData: postData,
     getData: getData,
-    updateData: updateData
+    updateData: updateData,
+    deleteData: deleteData
 }

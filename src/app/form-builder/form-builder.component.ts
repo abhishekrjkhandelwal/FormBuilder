@@ -76,4 +76,15 @@ export class FormBuilderComponent implements OnInit {
      });
      dialogRef.afterClosed().subscribe();
    }
+
+   deleteFormDataByName(event: Event, keyUser: string) {
+      this.formBuilderService.deleteFormDataByName(keyUser).subscribe(data => {
+        console.log('formData', data);
+        var index = this.formData.indexOf(keyUser, 0);
+        if (index > -1)
+        {
+           this.formData.splice(index, -1);
+        }
+      });
+   }
 }
