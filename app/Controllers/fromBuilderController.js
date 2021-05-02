@@ -37,35 +37,54 @@ const getData = (req, res) => {
     .catch(err => console.log(err));
 }
 
-
 const updateData = (req, res) => {
     const user = new schema.User({
         name: req.body.userName,
-    });
-
-    const userDetails = new schema.userDetails({
-        name: req.body.name,
-        email: req.body.email,
-        gender: req.body.gender,
-        adhaarNumber: req.body.adhaarNumber,
-        country: req.body.country
     });
 
     schema.User.aggregate([
         {
             $lookup:
             {
-                from: `"${userDetails}"`,
+                from: "userDetails",
                 localField: "name",
                 foreignField: "name",
                 as: "userD"
             }
         },
-        // {
-        //     $unwind: "$userD"
-        // },
+        {
+            $unwind: "$userD"
+        },
+        {
+            $project : {
+                name: 1,
+                email: "$userD.email",
+                gender: "$userD.gender",
+                adhaarNumber: "$userD.adhaarNumber",
+                country: "$userD.country",
+            }
+        }
     ])
-    .then(userDetails => console.log(userDetails[0].userD));
+    .then(
+       
+        setData = {
+           name: req.body.formData.name,
+           email: req.body.formData.email,
+           gender: req.body.formData.gender,
+           adhaarNumber: req.body.formData.adhaarNumber,
+           country: req.body.formData.country
+        },
+         
+        schema.userDetails.findOneAndUpdate({ name: user.name},
+            {$set: setData},
+            {new : true},
+            (err, doc) => {
+                 if(err) {
+                     console.log("wrong when data updating");
+                 }
+                 console.log(doc);
+              })
+    );
 }
 
 module.exports = {
