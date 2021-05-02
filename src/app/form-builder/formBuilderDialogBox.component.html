@@ -6,7 +6,7 @@
         <br />
         <br />
 
-        <form [formGroup] = "formBuilderForm" id="formBuilderForm" (ngSubmit)="updateFormBuilderByName($event)">
+        <form [formGroup] = "formBuilderForm" id="formBuilderForm" (ngSubmit)="updateFormBuilderByName()">
             <mat-form-field>  
                 <input matInput name="name" formControlName="name" type="name" placeholder="Enter Username" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.name.touched) && formBuilderForm.controls.name.errors }" />
                   <mat-error>

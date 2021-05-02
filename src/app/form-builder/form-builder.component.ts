@@ -25,8 +25,8 @@ export class FormBuilderComponent implements OnInit {
   public countries: string[] = ['USA', 'UK', 'Canada', 'India'];
   default = 'UK';
   public userName!: string;
-  @Output() emitter:EventEmitter<string>
-       = new EventEmitter<string>()
+  // @Output() emitter:EventEmitter<string>
+  //      = new EventEmitter<string>()
 
   constructor(
     private formBuilder: FormBuilder,
@@ -68,8 +68,8 @@ export class FormBuilderComponent implements OnInit {
      });
   }
    openformBuilderDialog(event: Event, keyUser: string): void {
-    this.emitter.emit(keyUser);
-    console.log('keyUser', keyUser);
+    //this.emitter.emit(keyUser);
+    this.formBuilderService.setUserName(keyUser);
     let dialogRef = this.dialog.open(formBuilderDialogPage, {
         minWidth: '400px',
         minHeight: '620px'

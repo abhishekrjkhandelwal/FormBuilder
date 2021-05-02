@@ -13,6 +13,7 @@ export class FormBuilderService {
   constructor(private http: HttpClient) { }
 
   baseUrl = 'http://localhost:3000/api';
+  userName!: string;
 
   // API for get form data by form builder
   getFormData(): Observable<any> {
@@ -28,8 +29,13 @@ export class FormBuilderService {
    }
 
     // http client api for update user
-   updateFormDataByName(formData: Form): Observable<Form> {
-      return this.http.put<Form>(this.baseUrl + '/update-form-data' , formData)
+    updateFormBuilderServiceByName(userName: string, formData: Form): Observable<Form> {
+      const userInfo = {
+        userName,
+        formData
+      };
+      console.log('userInfo', userInfo);
+      return this.http.put<Form>(this.baseUrl + '/update-form-data' , userInfo)
       .pipe(tap(data => JSON.stringify(Form), catchError(this.errorHandler)));
    }
 
@@ -37,6 +43,14 @@ export class FormBuilderService {
    deleteFormDataByName(id: number) {
       return this.http.delete(this.baseUrl + '/delete-form-data?id=' + id)
       .pipe(tap(data => JSON.stringify(id), catchError(this.errorHandler)));
+    }
+
+    setUserName(userName: string) {
+       this.userName = userName;
+    } 
+
+    getUserName() {
+       return this.userName;
     }
 
   // error handler

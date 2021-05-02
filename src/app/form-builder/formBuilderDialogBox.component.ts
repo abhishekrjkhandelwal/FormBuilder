@@ -2,7 +2,6 @@ import { Component, OnInit, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { FormBuilderService } from '../Services/form-builder.service';
-import { FormBuilderComponent } from './form-builder.component';
 
 @Component ({
     // tslint:disable-next-line: component-selector
@@ -14,13 +13,12 @@ import { FormBuilderComponent } from './form-builder.component';
 
 export class formBuilderDialogPage implements OnInit {
 
-      @Input() keyUser!: any;
+      public keyUser!: any;
       public submitted = false;
       public formData: any = [];
       public countries: string[] = ['USA', 'UK', 'Canada', 'India'];
       default = 'UK';
       public userName!: string;
-
 
       formBuilderForm = new FormGroup({
         name: new FormControl(['', [Validators.required, Validators.maxLength(20),  Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]]),
@@ -37,20 +35,20 @@ export class formBuilderDialogPage implements OnInit {
       ) { }
 
       ngOnInit(): void {
-           console.log('data--->', this.keyUser);
+           this.keyUser = this.formBuilderService.getUserName();
+           console.log('keyuser', this.keyUser);
       }
 
         onCloseDialog(): void {
                 this.dialogRef.close();
             }
 
-        updateFormBuilderByName(event: Event): void {
-                if (event) {
-                    // this.updateFormBuilderServiceByName(this.userName, this.formBuilderForm).subcribe(data => {
-                    //     console.log(data);
-                    // });
-                }
+        updateFormBuilderByName(): void {
+                    this.formBuilderService.updateFormBuilderServiceByName(this.keyUser, this.formBuilderForm.value).subscribe(data => {
+                        console.log(data);
+                    });
             }
+
             getData(): void {
                  this.formBuilderService.getFormData().subscribe(data => {
                  this.formData = data.posts;

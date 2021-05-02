@@ -1,5 +1,4 @@
 const schema = require('../Models/FormBuilderData');
-const mongoose = require('mongoose');
 
 const postData = (req, res) => {
     const user = new schema.User({
@@ -38,7 +37,39 @@ const getData = (req, res) => {
     .catch(err => console.log(err));
 }
 
+
+const updateData = (req, res) => {
+    const user = new schema.User({
+        name: req.body.userName,
+    });
+
+    const userDetails = new schema.userDetails({
+        name: req.body.name,
+        email: req.body.email,
+        gender: req.body.gender,
+        adhaarNumber: req.body.adhaarNumber,
+        country: req.body.country
+    });
+
+    schema.User.aggregate([
+        {
+            $lookup:
+            {
+                from: `"${userDetails}"`,
+                localField: "name",
+                foreignField: "name",
+                as: "userD"
+            }
+        },
+        // {
+        //     $unwind: "$userD"
+        // },
+    ])
+    .then(userDetails => console.log(userDetails[0].userD));
+}
+
 module.exports = {
     postData: postData,
-    getData: getData
+    getData: getData,
+    updateData: updateData
 }
