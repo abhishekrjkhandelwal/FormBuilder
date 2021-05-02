@@ -22,9 +22,17 @@ export class FormBuilderService {
   }
 
   // API for post data from formbuilder
-  postFormData(formData: Form): Observable<Form[]> {
-    console.log('----->', formData);
-    return this.http.post<Form[]>(this.baseUrl + '/post-form-data', formData)
+  postFormData(formData: Form, image: File): Observable<Form[]> {
+    const postData = new FormData(); 
+    postData.append("image", image);
+
+    const userData = {
+      formData,
+      postData
+    };
+
+
+    return this.http.post<Form[]>(this.baseUrl + '/post-form-data', userData)
        .pipe(catchError(this.errorHandler));
    }
 

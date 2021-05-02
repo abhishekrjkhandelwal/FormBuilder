@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { FormBuilderService } from '../Services/form-builder.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formBuilderDialogPage } from './formBuilderDialogBox.component';
-
+import { mimeType } from './mime-type.validator';
 
 @Component({
   selector: 'app-form-builder',
@@ -25,6 +25,7 @@ export class FormBuilderComponent implements OnInit {
   public countries: string[] = ['USA', 'UK', 'Canada', 'India'];
   default = 'UK';
   public userName!: string;
+  public imagePreview!: any;
   // @Output() emitter:EventEmitter<string>
   //      = new EventEmitter<string>()
 
@@ -41,20 +42,22 @@ export class FormBuilderComponent implements OnInit {
       gender: new  FormControl('male'),
       adhaarNumber: ['', [Validators.required]],
       country: new FormControl(null),
+       image: new FormControl(null,
+        {
+          validators:  [Validators.required], 
+          asyncValidators: [mimeType]
+        }),
     });
+
     this.formBuilderForm.controls.country.setValue(this.default, {onlySelf: true});
     this.getData();
   }
 
   postFormData(): void {
     console.log(this.formBuilderForm.value);
-
-    if (this.formBuilderForm.invalid) {
-      console.log('Enter valid credentials');
-      return;
-    }
+    
     // tslint:disable-next-line: deprecation
-    this.formBuilderService.postFormData(this.formBuilderForm.value).subscribe(data => {
+    this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(data => {
         console.log(data);
     });
   }
@@ -67,6 +70,23 @@ export class FormBuilderComponent implements OnInit {
       console.log(data.posts[0].name);
      });
   }
+
+
+  onImagePicked(event: any) {
+    const file = (event.target as HTMLInputElement).files?.item(0);
+    console.log(typeof file);
+    console.log(file);
+    this.formBuilderForm.patchValue({image: file});
+    this.formBuilderForm.get('image')?.updateValueAndValidity();
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.imagePreview = reader.result;
+    };
+    if (file) {
+        reader.readAsDataURL(file);
+    }
+  }
+
    openformBuilderDialog(event: Event, keyUser: string): void {
     //this.emitter.emit(keyUser);
     this.formBuilderService.setUserName(keyUser);

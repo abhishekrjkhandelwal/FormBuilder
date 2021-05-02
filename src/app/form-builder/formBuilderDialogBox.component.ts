@@ -44,12 +44,12 @@ export class formBuilderDialogPage implements OnInit {
             }
 
         updateFormBuilderByName(): void {
-                    this.formBuilderService.updateFormBuilderServiceByName(this.keyUser, this.formBuilderForm.value).subscribe(data => {
-                        console.log(data);
-                    });
+                this.formBuilderService.updateFormBuilderServiceByName(this.keyUser, this.formBuilderForm.value).subscribe(data => {
+                    console.log(data);
+                });
             }
 
-            getData(): void {
+        getData(): void {
                  this.formBuilderService.getFormData().subscribe(data => {
                  this.formData = data.posts;
                  this.userName = data.posts.name;

@@ -1,28 +1,54 @@
 const schema = require('../Models/FormBuilderData');
+const multer = require('multer');
 
-const postData = (req, res) => {
+const MIME_TYPE_MAP = {
+    'image/png': 'png',
+    'image/jpeg': 'jpeg',
+    'image/jpg': 'jpg'
+}
+
+const storage = multer.diskStorage({
+    destination: (req , file, cb) => {
+        const isValid  = MIME_TYPE_MAP(file.mimetype);
+        let error = new Error("Invalid mime type");
+        if(isValid) {
+            error = null;
+        }
+        cb(null, "../../app/images/");
+    },
+    filename: (req, file, cb) => {
+        const name = file.originalname.toLowerCase().split(' ').join('-');
+        const ext = MIME_TYPE_MAP(file.mimetype);
+        cb(null, name + '-', + Date.now() + '.' + ext);
+    }
+});
+
+const postData = (multer({storage: storage}).single("image"), (req, res) => {
+
+    console.log('req.file', req.body.file)
+
     const user = new schema.User({
         name: req.body.name,
     });
 
     const userDetails = new schema.userDetails({
-        name: req.body.name,
-        email: req.body.email,
-        gender: req.body.gender,
-        adhaarNumber: req.body.adhaarNumber,
-        country: req.body.country
+        name: req.body.formData.name,
+        email: req.body.formData.email,
+        gender: req.body.formData.gender,
+        adhaarNumber: req.body.formData.adhaarNumber,
+        country: req.body.formData.country
     });
 
     user.save(function (err, user) {
         if (err) return console.error(err);
-        console.log(user + " saved to bookstor collection.");
+        console.log(user + " saved to user collection.");
     })
 
     userDetails.save(function (err, userDetails) {
         if (err) return console.error(err);
-        console.log(userDetails + " saved to bookstore collection.");
+        console.log(userDetails + " saved to userDetails collection.");
     })
-}
+})
 
 
 const getData = (req, res) => {
