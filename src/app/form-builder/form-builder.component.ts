@@ -79,9 +79,7 @@ export class FormBuilderComponent implements OnInit {
   getData(): void {
      // tslint:disable-next-line: deprecation
       this.formBuilderService.getFormData().subscribe(data => {
-      this.formData = data.posts;
-      this.userName = data.posts.name;
-      console.log(data.posts[0].name);
+        this.formData = data.formdata;
      });
   }
 

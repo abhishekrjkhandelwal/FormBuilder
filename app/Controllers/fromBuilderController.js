@@ -23,6 +23,7 @@ const storage = multer.diskStorage({
     }
 });
 
+/** Post fromData */
 const postData = (multer({storage: storage}).single("image"), async (req, res) => {
 
     const user = new schema.User({
@@ -48,7 +49,7 @@ const postData = (multer({storage: storage}).single("image"), async (req, res) =
     })
 })
 
-
+/** fetch fromData */
 const getData = async (req, res) => {
     await schema.userDetails.find()
     .select("name email gender adhaarNumber country")
@@ -88,6 +89,7 @@ const getData = async (req, res) => {
     });
 }
 
+/** Update formData */
 const updateData = async (req, res) => {
     const user = new schema.User({
         name: req.body.userName,
@@ -168,6 +170,7 @@ const updateData = async (req, res) => {
     );
 }
 
+/** Delete fromData */
 const deleteData = async (req, res) => {
     const user = new schema.User({
         name: req.query.name,

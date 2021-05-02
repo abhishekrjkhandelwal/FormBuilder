@@ -37,10 +37,13 @@
       </mat-error>
     </mat-form-field>
 
+     <br />
+
      <select id="country" formControlName="country">
        <option *ngFor="let c of countries" [ngValue]="c">{{ c }}</option>
      </select>
 
+     <br />
      <br />
 
      <div>
@@ -64,7 +67,7 @@
 <br />
 <br />
 
-<table class="styled-table">
+<table class="styled-table" style="margin-left: 20%;">
    <thead>
      <th>ID</th>
      <th>Name</th>

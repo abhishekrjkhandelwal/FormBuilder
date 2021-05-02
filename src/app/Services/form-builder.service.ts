@@ -18,7 +18,7 @@ export class FormBuilderService {
   // API for get form data by form builder
   getFormData(): Observable<any> {
     return this.http.get<any>(this.baseUrl + '/get-form-data')
-    .pipe(catchError(this.errorHandler));
+    .pipe(tap(data => JSON.stringify(data), catchError(this.errorHandler)));
   }
 
   // API for post data from formbuilder
@@ -32,8 +32,8 @@ export class FormBuilderService {
     };
 
     return this.http.post<Form[]>(this.baseUrl + '/post-form-data', userData)
-       .pipe(catchError(this.errorHandler));
-   }
+       .pipe(tap(data => JSON.stringify(data), catchError(this.errorHandler)));
+    }
 
     // http client api for update user
     updateFormBuilderServiceByName(userName: string, formData: Form): Observable<Form> {
@@ -43,10 +43,9 @@ export class FormBuilderService {
       };
       console.log('userInfo', userInfo);
       return this.http.put<Form>(this.baseUrl + '/update-form-data' , userInfo)
-      .pipe(tap(data => JSON.stringify(Form), catchError(this.errorHandler)));
-   }
-
-    // http client api for delete user by id
+      .pipe(tap(data => JSON.stringify(data), catchError(this.errorHandler)));
+    }
+    
     deleteFormDataByName(name: string) {
       return this.http.delete(this.baseUrl + '/delete-form-data-by-name?name=' + name)
       .pipe(tap(data => JSON.stringify(data), catchError(this.errorHandler)));
@@ -60,8 +59,8 @@ export class FormBuilderService {
        return this.userName;
     }
 
-  // error handler
-  errorHandler(error: HttpErrorResponse): Observable<any>{
+    // error handler
+    errorHandler(error: HttpErrorResponse): Observable<any>{
       return observableThrowError(error.message || 'serviceError');
-  }
+   }
 }
