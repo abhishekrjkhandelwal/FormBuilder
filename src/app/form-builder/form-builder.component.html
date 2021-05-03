@@ -38,7 +38,7 @@
      <br />
 
      <mat-form-field class="address">
-      <input matInput name="address" formControlName="address"  placeholder="Address" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.address.touched) && formBuilderForm.controls.address.errors }" />
+      <input matInput name="address" formControlName="address" placeholder="Address"  [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.address.touched) && formBuilderForm.controls.address.errors }" />
       <mat-error>
         <div *ngIf="formBuilderForm.value.address.length === 0">
           <div *ngIf="((submitted || formBuilderForm.controls.address.touched) && formBuilderForm.controls.address.errors),"  class="invalid-input">Enter Valid Address</div>
@@ -51,7 +51,7 @@
      <br />
 
      <mat-form-field class="mobileno">
-      <input matInput name="mobileno" formControlName="mobileno"  placeholder="Mobile No." [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.mobileno.touched) && formBuilderForm.controls.mobileno.errors }" minlength="10" maxlength="10"/>
+      <input matInput name="mobileno" formControlName="mobileno"  placeholder="MobileNo." [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.mobileno.touched) && formBuilderForm.controls.mobileno.errors }" minlength="10" maxlength="10"/>
       <mat-error>
         <div *ngIf="formBuilderForm.value.mobileno.length === 0">
           <div *ngIf="((submitted || formBuilderForm.controls.mobileno.touched) && formBuilderForm.controls.mobileno.errors),"  class="invalid-input">Enter Valid Mobile No.</div>
@@ -68,8 +68,6 @@
     </mat-form-field> -->
     <!-- <br /> 
     <br /> -->
-
-
 
      <select id="country" formControlName="country">
        <option *ngFor="let c of countries" [ngValue]="c">{{ c }}</option>

@@ -73,6 +73,7 @@ const getData = async (req, res) => {
         },
         {
        $project : {
+                _id: 1,
                 name: 1,
                 createdAt: 1,
                 email: "$userD.email",
@@ -216,9 +217,7 @@ const deleteData = async (req, res) => {
         name: req.query.name,
     });   
 
-    console.log('name', req.query.name);
-
-     await schema.userDetails.deleteMany({name: req.query.name}, function(err) {
+   await schema.userDetails.deleteMany({name: req.query.name}, function(err) {
         if(err) {
             throw err;
         } else {
@@ -227,6 +226,7 @@ const deleteData = async (req, res) => {
     }).then(documents => {
         const response = {
             count: documents.length,
+            message: "user Details is deleted",
             formdata: documents.map(doc => {
                 return {
                     request: {
