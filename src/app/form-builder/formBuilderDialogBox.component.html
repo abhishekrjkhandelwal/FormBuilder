@@ -17,7 +17,7 @@
                   </mat-error>
               </mat-form-field> -->
         
-            <mat-form-field class="email">
+            <!-- <mat-form-field class="email">
               <input matInput name="email" formControlName="email" type="text" placeholder="E-Mail" value="{{ email }}" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.email.touched) && formBuilderForm.controls.email.errors }" />
               <mat-error>
                 <div *ngIf="formBuilderForm.value.email.length != 0">
@@ -25,7 +25,7 @@
                 </div>
                 <div *ngIf="formBuilderForm.controls.email.errors?.required">Email is required</div>
               </mat-error>
-            </mat-form-field>
+            </mat-form-field> -->
         
             <input type="radio" formControlName="gender" value="male" required> Male
             <input type="radio" formControlName="gender" value="female"required> Female

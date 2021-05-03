@@ -7,6 +7,7 @@ mat-form-field {
   }
   
   .main-div {
+    margin-top: 20%;
     height: 45vh;
     display: flex;
     justify-content: center;

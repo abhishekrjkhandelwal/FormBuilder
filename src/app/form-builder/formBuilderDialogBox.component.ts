@@ -48,16 +48,17 @@ export class formBuilderDialogPage implements OnInit {
       };
 
       formBuilderForm = new FormGroup({
-        name: new FormControl(['', [Validators.required, Validators.maxLength(20),  Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]]),
-        email: new FormControl(['', Validators.compose([
-            Validators.required, Validators.pattern(this.emailPattern), this.commaSepEmail
-          ]) ]),
+        //name: new FormControl(['', [Validators.required, Validators.maxLength(20),  Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]]),
+        // email: new FormControl(['', Validators.compose([
+        //     Validators.required, Validators.pattern(this.emailPattern), this.commaSepEmail
+        //   ]) ]),
         gender: new  FormControl('male'),
         adhaarNumber: new FormControl (['', [Validators.required]]),
         country: new FormControl(null),
-        dob: new FormControl(['', [Validators.required]]),
+        //dob: new FormControl(['', [Validators.required]]),
         mobileno: new FormControl(['', [Validators.required, Validators.pattern(this.mobileNumber)]]),
         address: new FormControl(['', [Validators.required]]),
+        createdAt: new FormControl(null),
       });
       
      constructor(
@@ -81,6 +82,7 @@ export class formBuilderDialogPage implements OnInit {
             }
 
         updateFormBuilderByName(): void {
+                this.formBuilderForm.value.createdAt = this.myDate;
                 this.formBuilderService.updateFormBuilderServiceByName(this.keyUser, this.formBuilderForm.value).subscribe(data => {
                     console.log(data);
                 });
@@ -91,7 +93,6 @@ export class formBuilderDialogPage implements OnInit {
                     console.log(data); 
                     this.adhaarNumber = data.formdata[0].adhaarNumber;
                     this.country = data.formdata[0].country,
-                    this.email = data.formdata[0].email,
                     this.gender = data.formdata[0].gender
                     this.mobileNumber = data.formdata[0].mobileNumber,
                     this.address = data.formdata[0].address,

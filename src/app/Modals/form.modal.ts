@@ -1,5 +1,4 @@
 export class Form {
-    fid?: number;
     name?: string;
     email?: string;
     gender?: string;
@@ -8,6 +7,5 @@ export class Form {
     address?: string;
     createdAt?: Date;
     dob?: any;
-    status: any;
     mobileno?: String;
 }

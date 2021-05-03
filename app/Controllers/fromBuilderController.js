@@ -26,10 +26,10 @@ const storage = multer.diskStorage({
 /** Post fromData */
 const postData = (multer({storage: storage}).single("image"), async (req, res) => {
 
-    console.log('req.body.createdAt', req.body.createdAt);
-
+    
     const user = new schema.User({
         name: req.body.formData.name,
+        email: req.body.formData.email,
         createdAt: req.body.formData.createdAt
     });
 
@@ -76,7 +76,7 @@ const getData = async (req, res) => {
                 _id: 1,
                 name: 1,
                 createdAt: 1,
-                email: "$userD.email",
+                email: 1,
                 gender: "$userD.gender",
                 adhaarNumber: "$userD.adhaarNumber",
                 address: "$userD.address",
@@ -147,7 +147,7 @@ const updateData = async (req, res) => {
        $project : {
                 name: 1,
                 createdAt: 1,
-                email: "$userD.email",
+                email: 1,
                 gender: "$userD.gender",
                 adhaarNumber: "$userD.adhaarNumber",
                 address: "$userD.address",
@@ -158,13 +158,11 @@ const updateData = async (req, res) => {
     ])
     .then(     
         setData = {
-           email: req.body.formData.email,
            gender: req.body.formData.gender,
            adhaarNumber: req.body.formData.adhaarNumber,
            address: req.body.formData.address,
            mobileno: req.body.formData.mobileno,
            country: req.body.formData.country,
-           createdAt: req.body.formData.createdAt
         },
          
        await schema.userDetails.findOneAndUpdate({ name: user.name},
