@@ -28,6 +28,7 @@ export class FormBuilderComponent implements OnInit {
   emailPattern = "[a-zA-Z0-9_.+-,;]+@(?:(?:[a-zA-Z0-9-]+\.,;)?[a-zA-Z]+\.,;)?(gmail)\.com";
   adhhaarNumber = /^[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}$/;
   mobileNumber = /[0-9\+\-\ ]/;
+  address = /^[#.0-9a-zA-Z\s,-]+$/;
 
   // @Output() emitter:EventEmitter<string>
   //      = new EventEmitter<string>()
@@ -50,8 +51,8 @@ export class FormBuilderComponent implements OnInit {
       gender: new  FormControl('male'),
       adhaarNumber: ['', [Validators.required, Validators.pattern(this.adhhaarNumber)]],
       dob: new FormControl(['', [Validators.required]]),
-      mobileno: new FormControl(['', [Validators.required, Validators.pattern(this.mobileNumber)]]),
-      address: new FormControl(['', [Validators.required]]),
+      mobileno: ['', [Validators.required, Validators.pattern(this.mobileNumber)]],
+      address: ['', [Validators.required, Validators.pattern(this.address)]],
       country: new FormControl(null),
       image: new FormControl(null,
         {
