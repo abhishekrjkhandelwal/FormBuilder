@@ -26,9 +26,14 @@ const storage = multer.diskStorage({
 /** Post fromData */
 const postData = (multer({storage: storage}).single("image"), async (req, res) => {
 
+    console.log('req.body.createdAt', req.body.createdAt);
+
     const user = new schema.User({
-        name: req.body.name,
+        name: req.body.formData.name,
+        createdAt: req.body.formData.createdAt
     });
+
+    console.log('user', user);
 
     const userDetails = new schema.userDetails({
         name: req.body.formData.name,
@@ -53,9 +58,32 @@ const postData = (multer({storage: storage}).single("image"), async (req, res) =
 
 /** fetch fromData */
 const getData = async (req, res) => {
-    await schema.userDetails.find()
-    .select("name email gender adhaarNumber address mobileno country")
-    .exec() 
+    await schema.User.aggregate([
+        {
+            $lookup:
+            {
+                from: "userDetails",
+                localField: "name",
+                foreignField: "name",
+                as: "userD"
+            }
+        },
+        {
+            $unwind: "$userD"
+        },
+        {
+       $project : {
+                name: 1,
+                createdAt: 1,
+                email: "$userD.email",
+                gender: "$userD.gender",
+                adhaarNumber: "$userD.adhaarNumber",
+                address: "$userD.address",
+                mobileno: "$userD.mobileno",
+                country: "$userD.country",
+            },
+        }
+    ]) 
     .then(documents => {
         const response = {
             count: documents.length,
@@ -70,6 +98,7 @@ const getData = async (req, res) => {
                     address: doc.address,
                     mobileno: doc.mobileno,
                     country: doc.country,
+                    createdAt: doc.createdAt,
                     request: {
                         type: 'GET',
                         url: 'http://localhost:3000/get-form-data/' + doc._id,
@@ -77,6 +106,7 @@ const getData = async (req, res) => {
                 }
             })
         }
+        console.log(response);
         res.status(200).json(response);
     })
     .catch(err => {
@@ -115,6 +145,7 @@ const updateData = async (req, res) => {
         {
        $project : {
                 name: 1,
+                createdAt: 1,
                 email: "$userD.email",
                 gender: "$userD.gender",
                 adhaarNumber: "$userD.adhaarNumber",
@@ -132,7 +163,8 @@ const updateData = async (req, res) => {
            adhaarNumber: req.body.formData.adhaarNumber,
            address: req.body.formData.address,
            mobileno: req.body.formData.mobileno,
-           country: req.body.formData.country
+           country: req.body.formData.country,
+           createdAt: req.body.formData.createdAt
         },
          
        await schema.userDetails.findOneAndUpdate({ name: user.name},

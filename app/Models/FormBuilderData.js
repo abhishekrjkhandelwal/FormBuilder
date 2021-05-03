@@ -2,6 +2,7 @@ const mongoose =  require('mongoose');
 
 const userSchema =  mongoose.Schema({
     name: {type: String, required: true},
+    createdAt: { }
 });
 
 const formBuilderSchema = mongoose.Schema({
@@ -11,7 +12,7 @@ const formBuilderSchema = mongoose.Schema({
     adhaarNumber: {type: String, required: true},
     address: {type: String, required: true },
     mobileno: {type: String, requird: true},
-    country: {type: String}
+    country: {type: String, requird: true},
 });
 
 const User =  mongoose.model('User', userSchema, 'user');

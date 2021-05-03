@@ -108,6 +108,7 @@
      <th>Country</th>
      <th>Address</th>
      <th>Mobile No</th>
+     <th>createdAt</th>
      <th>Update</th>
      <th>Delete</th>
    </thead>
@@ -121,6 +122,7 @@
         <td>{{ formdata.address }}</td>
         <td>{{ formdata.mobileno }}</td>
         <td>{{ formdata.country }}</td>
+        <td>{{ formdata.createdAt }}</td>
         <td><button id="update" (click)="openformBuilderDialog($event, formdata.name)">Update</button></td>
         <td><button id="delete" (click)="deleteFormDataByName($event, formdata.name)" >Delete</button></td>   
      </tr>

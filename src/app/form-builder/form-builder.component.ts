@@ -4,17 +4,13 @@ import { FormBuilderService } from '../Services/form-builder.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formBuilderDialogPage } from './formBuilderDialogBox.component';
 import { mimeType } from './mime-type.validator';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-form-builder',
   templateUrl: './form-builder.component.html',
   styleUrls: ['./form-builder.component.css'],
-  // providers: [ {
-  //   provide: MatDialogRef,
-  //   useValue: {}
-  //   },
-  //   formBuilderDialogPage
-  // ]
+  providers: [ DatePipe ]
 })
 
 export class FormBuilderComponent implements OnInit {
@@ -28,6 +24,7 @@ export class FormBuilderComponent implements OnInit {
   default = 'UK';
   public userName!: string;
   public imagePreview!: any;
+  myDate: any = new Date();
   emailPattern = "[a-zA-Z0-9_.+-,;]+@(?:(?:[a-zA-Z0-9-]+\.,;)?[a-zA-Z]+\.,;)?(gmail)\.com";
   adhhaarNumber = /^[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}$/;
   mobileNumber = /[0-9\+\-\ ]/;
@@ -38,8 +35,11 @@ export class FormBuilderComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private formBuilderService: FormBuilderService,
-    private dialog: MatDialog
-  ) { }
+    private dialog: MatDialog,
+    private datePipe:  DatePipe,
+  ) { 
+    this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+  }
 
   ngOnInit(): void {
     this.formBuilderForm = this.formBuilder.group({
@@ -53,11 +53,12 @@ export class FormBuilderComponent implements OnInit {
       mobileno: new FormControl(['', [Validators.required, Validators.pattern(this.mobileNumber)]]),
       address: new FormControl(['', [Validators.required]]),
       country: new FormControl(null),
-       image: new FormControl(null,
+      image: new FormControl(null,
         {
           validators:  [Validators.required],
           asyncValidators: [mimeType]
         }),
+        createdAt: new FormControl(null),
     });
 
     this.formBuilderForm.controls.country.setValue(this.default, {onlySelf: true});
@@ -66,7 +67,6 @@ export class FormBuilderComponent implements OnInit {
   }
 
   commaSepEmail = (control: AbstractControl): { [key: string]: any } | any => {
-    console.log("This is value:" + control.value);
     try {
     if (control.value){
         var emails= control.value.split(',');
@@ -92,14 +92,14 @@ export class FormBuilderComponent implements OnInit {
     var flag = false;
     // tslint:disable-next-line: deprecation
     let name = this.formBuilderForm.value.name;
+    this.formBuilderForm.value.createdAt = this.myDate;
+
     
-    for(var index in this.names) {
-        console.log('this.names[index]', this.names[index], name) 
-        if(this.names[index] === name) {
+    if(this.names.includes(name)) {
            flag = true;
-         }
-    }
-    if(!flag && this.names.length == 0) {
+     }
+    
+    if(!flag || this.names.length == 0) {
       this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(data => {
         console.log(data);
       });

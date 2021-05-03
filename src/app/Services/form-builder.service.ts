@@ -25,13 +25,15 @@ export class FormBuilderService {
   postFormData(formData: Form, image: File): Observable<Form[]> {
     const postData = new FormData(); 
     postData.append("image", image);
-
+     
     const userData = {
       formData,
-      postData
+      postData,
     };
+    
+    console.log('userData', userData);
 
-    return this.http.post<Form[]>(this.baseUrl + '/post-form-data', userData)
+     return this.http.post<Form[]>(this.baseUrl + '/post-form-data', userData)
        .pipe(tap(data => JSON.stringify(data), catchError(this.errorHandler)));
     }
 
