@@ -10,16 +10,13 @@
             <div *ngIf="formBuilderForm.value.name.length != 0">
               <div *ngIf="((submitted || formBuilderForm.controls.name.touched) && formBuilderForm.controls.name.errors)" class="invalid-input"></div>
             </div>
-            <div *ngIf="formBuilderForm.controls.name.errors?.required">name is required && only 20 characters allowed</div>
+            <div *ngIf="formBuilderForm.controls.name.errors?.required || formBuilderForm.controls.name.errors?.unique">name is required && only 20 characters allowed</div>
           </mat-error>
       </mat-form-field>
 
     <mat-form-field class="email">
-      <input matInput name="email" formControlName="email" type="text" placeholder="E-Mail" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.email.touched) && formBuilderForm.controls.email.errors }" (ngModelChange) = "extractEmailList($event)" maxlength="200"/>
+      <input matInput name="email" formControlName="email" type="text" placeholder="E-Mail" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.email.touched) && formBuilderForm.controls.email.errors }" [pattern]="emailPattern" maxlength="500"/>
       <mat-error>
-        <div *ngIf="formBuilderForm.value.email.length != 0">
-          <div *ngIf="((submitted || formBuilderForm.controls.email.touched) && formBuilderForm.controls.email.errors),"  class="invalid-input">Enter Valid Email Id</div>
-        </div>
         <div *ngIf="formBuilderForm.controls.email.errors?.required">Email is required</div>
       </mat-error>
     </mat-form-field>

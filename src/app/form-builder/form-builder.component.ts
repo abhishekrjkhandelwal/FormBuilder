@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { FormBuilderService } from '../Services/form-builder.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formBuilderDialogPage } from './formBuilderDialogBox.component';
@@ -19,6 +19,7 @@ import { mimeType } from './mime-type.validator';
 
 export class FormBuilderComponent implements OnInit {
 
+  names : String[] = [];
   public emailList: string[] = [];
   public formBuilderForm!: FormGroup;
   public submitted = false;
@@ -27,6 +28,9 @@ export class FormBuilderComponent implements OnInit {
   default = 'UK';
   public userName!: string;
   public imagePreview!: any;
+  emailPattern = "[a-zA-Z0-9_.+-,;]+@(?:(?:[a-zA-Z0-9-]+\.,;)?[a-zA-Z]+\.,;)?(gmail)\.com";
+  adhhaarNumber = /^[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}$/;
+  
   // @Output() emitter:EventEmitter<string>
   //      = new EventEmitter<string>()
 
@@ -38,10 +42,12 @@ export class FormBuilderComponent implements OnInit {
 
   ngOnInit(): void {
     this.formBuilderForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(1) , Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]],
-      email: ['', [Validators.required, Validators.minLength(1),  Validators.pattern(/^([\w+-.%]+@[\w-.]+\.[A-Za-z]{2,4},?)+$/)]],
+      name: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(1), this.uniqueValidator.bind(this) , Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]],
+      email: ['', Validators.compose([
+        Validators.required, Validators.pattern(this.emailPattern),this.commaSepEmail
+      ]) ],
       gender: new  FormControl('male'),
-      adhaarNumber: ['', [Validators.required, Validators.pattern(/^[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}$/)]],
+      adhaarNumber: ['', [Validators.required, Validators.pattern(this.adhhaarNumber)]],
       country: new FormControl(null),
        image: new FormControl(null,
         {
@@ -51,25 +57,40 @@ export class FormBuilderComponent implements OnInit {
     });
 
     this.formBuilderForm.controls.country.setValue(this.default, {onlySelf: true});
+    
     this.getData();
   }
 
-  extractEmailList(e: string) {
-    this.emailList = [];
-    if (this.formBuilderForm.valid) {
-       const emails = e.split(', ');
-       emails.forEach(email => {
-         if (email && email.length > 0) {
-           this.emailList.push(email);
-         }
-       });
+  commaSepEmail = (control: AbstractControl): { [key: string]: any } | any => {
+    console.log("This is value:" + control.value);
+    try {
+    if (control.value){
+        var emails= control.value.split(',');
+        const forbidden = emails.some((email:any) => Validators.email(new FormControl(email)));
+    console.log(forbidden);
+    return forbidden ? { 'email': { value: control.value.trim() } } : null;
     }
-    console.log('emailList', this.emailList);
-  }
+    } catch(error) {
+        console.log(error);
+    }
+  };
+
+ uniqueValidator(control: AbstractControl) {
+   const name = control.get('name')?.value;
+   console.log(this)
+   if(control.get('name')?.valid) {
+      const isNameUnique = this.names.some(value => value === name);
+      if(!isNameUnique) {
+        console.log(isNameUnique);
+        control.get('name')?.setErrors({unavailable: true});
+      }
+    } 
+ }
 
   postFormData(): void {
     console.log(this.formBuilderForm.value);
-
+    this.names.push(this.formBuilderForm.value.name);
+    console.log('names', this.names);
     // tslint:disable-next-line: deprecation
     this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(data => {
         console.log(data);
