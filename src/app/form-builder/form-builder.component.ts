@@ -42,7 +42,7 @@ export class FormBuilderComponent implements OnInit {
 
   ngOnInit(): void {
     this.formBuilderForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(1), this.uniqueValidator.bind(this) , Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]],
+      name: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(1), Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]],
       email: ['', Validators.compose([
         Validators.required, Validators.pattern(this.emailPattern),this.commaSepEmail
       ]) ],
@@ -75,32 +75,37 @@ export class FormBuilderComponent implements OnInit {
     }
   };
 
- uniqueValidator(control: AbstractControl) {
-   const name = control.get('name')?.value;
-   console.log(this)
-   if(control.get('name')?.valid) {
-      const isNameUnique = this.names.some(value => value === name);
-      if(!isNameUnique) {
-        console.log(isNameUnique);
-        control.get('name')?.setErrors({unavailable: true});
-      }
-    } 
- }
+//  uniqueValidator(control: AbstractControl): string | null {
+//     try { 
+//       const formGroup = control["_parent"].controls; 
+//       return Object.keys(formGroup).find(name => control === formGroup[name]) || null;
+//     } catch(e) {
+//       return null;
+//     }
+//  }
 
   postFormData(): void {
-    console.log(this.formBuilderForm.value);
-    this.names.push(this.formBuilderForm.value.name);
-    console.log('names', this.names);
     // tslint:disable-next-line: deprecation
-    this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(data => {
-        console.log(data);
-    });
+    for(this.formBuilderForm.value.name in this.names) {
+        if(this.formBuilderForm.value.name !== this.names) {
+          console.log('name is already exists please try another name'); 
+          return;
+        } else {
+          this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(data => {
+            console.log(data);
+        });
+      }
+    } 
   }
 
   getData(): void {
      // tslint:disable-next-line: deprecation
       this.formBuilderService.getFormData().subscribe(data => {
         this.formData = data.formdata;
+        for(var name of data.formdata) {
+           this.names.push(name.name);   
+        }
+        console.log(this.names);
      });
   }
 
