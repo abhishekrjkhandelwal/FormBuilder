@@ -17,6 +17,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatRadioModule } from '@angular/material/radio';
 
+
 import { NgModule } from '@angular/core';
 const MATERIAL_MODULES = [
   MatButtonModule,
@@ -36,7 +37,7 @@ const MATERIAL_MODULES = [
   MatToolbarModule,
   MatMenuModule,
   MatDialogModule,
-  MatRadioModule
+  MatRadioModule,
 ];
 
 @NgModule({

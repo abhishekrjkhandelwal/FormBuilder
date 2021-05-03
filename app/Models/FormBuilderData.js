@@ -9,6 +9,8 @@ const formBuilderSchema = mongoose.Schema({
     email: {type: String, required: true},
     gender: {type: String,  required: true},
     adhaarNumber: {type: String, required: true},
+    address: {type: String, required: true },
+    mobileno: {type: String, requird: true},
     country: {type: String}
 });
 

@@ -30,7 +30,8 @@ export class FormBuilderComponent implements OnInit {
   public imagePreview!: any;
   emailPattern = "[a-zA-Z0-9_.+-,;]+@(?:(?:[a-zA-Z0-9-]+\.,;)?[a-zA-Z]+\.,;)?(gmail)\.com";
   adhhaarNumber = /^[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}$/;
-  
+  mobileNumber = /[0-9\+\-\ ]/;
+
   // @Output() emitter:EventEmitter<string>
   //      = new EventEmitter<string>()
 
@@ -48,6 +49,9 @@ export class FormBuilderComponent implements OnInit {
       ]) ],
       gender: new  FormControl('male'),
       adhaarNumber: ['', [Validators.required, Validators.pattern(this.adhhaarNumber)]],
+      dob: new FormControl(['', [Validators.required]]),
+      mobileno: new FormControl(['', [Validators.required, Validators.pattern(this.mobileNumber)]]),
+      address: new FormControl(['', [Validators.required]]),
       country: new FormControl(null),
        image: new FormControl(null,
         {
@@ -85,16 +89,22 @@ export class FormBuilderComponent implements OnInit {
 //  }
 
   postFormData(): void {
+    var flag = false;
     // tslint:disable-next-line: deprecation
-    for(this.formBuilderForm.value.name in this.names) {
-        if(this.formBuilderForm.value.name !== this.names) {
-          console.log('name is already exists please try another name'); 
-          return;
-        } else {
-          this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(data => {
-            console.log(data);
-        });
-      }
+    let name = this.formBuilderForm.value.name;
+    
+    for(var index in this.names) {
+        console.log('this.names[index]', this.names[index], name) 
+        if(this.names[index] === name) {
+           flag = true;
+         }
+    }
+    if(!flag && this.names.length == 0) {
+      this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(data => {
+        console.log(data);
+      });
+    } else {
+      console.log('Name is already exists please enter another name');
     } 
   }
 
@@ -102,6 +112,7 @@ export class FormBuilderComponent implements OnInit {
      // tslint:disable-next-line: deprecation
       this.formBuilderService.getFormData().subscribe(data => {
         this.formData = data.formdata;
+        console.log(this.formData[0]);
         for(var name of data.formdata) {
            this.names.push(name.name);   
         }

@@ -35,6 +35,8 @@ const postData = (multer({storage: storage}).single("image"), async (req, res) =
         email: req.body.formData.email,
         gender: req.body.formData.gender,
         adhaarNumber: req.body.formData.adhaarNumber,
+        address: req.body.formData.address,
+        mobileno: req.body.formData.mobileno,
         country: req.body.formData.country
     });
 
@@ -52,7 +54,7 @@ const postData = (multer({storage: storage}).single("image"), async (req, res) =
 /** fetch fromData */
 const getData = async (req, res) => {
     await schema.userDetails.find()
-    .select("name email gender adhaarNumber country")
+    .select("name email gender adhaarNumber address mobileno country")
     .exec() 
     .then(documents => {
         const response = {
@@ -65,6 +67,8 @@ const getData = async (req, res) => {
                     email: doc.email,
                     gender: doc.gender,
                     adhaarNumber: doc.adhaarNumber,
+                    address: doc.address,
+                    mobileno: doc.mobileno,
                     country: doc.country,
                     request: {
                         type: 'GET',
@@ -114,6 +118,8 @@ const updateData = async (req, res) => {
                 email: "$userD.email",
                 gender: "$userD.gender",
                 adhaarNumber: "$userD.adhaarNumber",
+                address: "$userD.address",
+                mobileno: "$userD.mobileno",
                 country: "$userD.country",
             },
         }
@@ -124,6 +130,8 @@ const updateData = async (req, res) => {
            email: req.body.formData.email,
            gender: req.body.formData.gender,
            adhaarNumber: req.body.formData.adhaarNumber,
+           address: req.body.formData.address,
+           mobileno: req.body.formData.mobileno,
            country: req.body.formData.country
         },
          
