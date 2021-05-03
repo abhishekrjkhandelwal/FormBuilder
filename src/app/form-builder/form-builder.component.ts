@@ -46,20 +46,20 @@ export class FormBuilderComponent implements OnInit {
     this.formBuilderForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(1), Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]],
       email: ['', Validators.compose([
-        Validators.required, Validators.pattern(this.emailPattern),this.commaSepEmail
+        Validators.required, this.commaSepEmail
       ]) ],
-      gender: new  FormControl('male'),
+      gender: ['male', [Validators.required]],
       adhaarNumber: ['', [Validators.required, Validators.pattern(this.adhhaarNumber)]],
-      dob: new FormControl(['', [Validators.required]]),
+      dob: ['', [Validators.required]],
       mobileno: ['', [Validators.required, Validators.pattern(this.mobileNumber)]],
       address: ['', [Validators.required, Validators.pattern(this.address)]],
-      country: new FormControl(null),
-      image: new FormControl(null,
+      country: ['', [Validators.required]],
+      image: [null,
         {
           validators:  [Validators.required],
           asyncValidators: [mimeType]
-        }),
-        createdAt: new FormControl(null),
+        }],
+        createdAt: ['', [Validators.required]],
     });
 
     this.formBuilderForm.controls.country.setValue(this.default, {onlySelf: true});
@@ -67,27 +67,16 @@ export class FormBuilderComponent implements OnInit {
     this.getData();
   }
 
-  commaSepEmail = (control: AbstractControl): { [key: string]: any } | any => {
-    try {
+  commaSepEmail = (control: AbstractControl): { [key: string]: String } | any => {
+    console.log('control', control.value);
     if (control.value){
-        var emails= control.value.split(',');
+        var emails= control.value.split(', ');
+        console.log('email', emails);
         const forbidden = emails.some((email:any) => Validators.email(new FormControl(email)));
-    console.log(forbidden);
-    return forbidden ? { 'email': { value: control.value.trim() } } : null;
-    }
-    } catch(error) {
-        console.log(error);
+        console.log(forbidden);
+        return forbidden ? { 'email': { value: control.value.trim() } } : null;
     }
   };
-
-//  uniqueValidator(control: AbstractControl): string | null {
-//     try { 
-//       const formGroup = control["_parent"].controls; 
-//       return Object.keys(formGroup).find(name => control === formGroup[name]) || null;
-//     } catch(e) {
-//       return null;
-//     }
-//  }
 
   postFormData(): void {
     var flag = false;

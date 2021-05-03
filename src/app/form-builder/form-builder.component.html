@@ -10,20 +10,28 @@
             <div *ngIf="formBuilderForm.value.name.length != 0">
               <div *ngIf="((submitted || formBuilderForm.controls.name.touched) && formBuilderForm.controls.name.errors)" class="invalid-input"></div>
             </div>
-            <div *ngIf="formBuilderForm.controls.name.errors?.required || formBuilderForm.controls.name.errors?.unique">name is required && only 20 characters allowed</div>
+            <div *ngIf="formBuilderForm.controls.name.errors?.required">name is required && only 20 characters allowed</div>
           </mat-error>
       </mat-form-field>
 
-    <mat-form-field class="email">
-      <input matInput name="email" formControlName="email" type="text" placeholder="E-Mail" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.email.touched) && formBuilderForm.controls.email.errors }" [pattern]="emailPattern" maxlength="500"/>
+    <mat-form-field class="email" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.email.touched) && formBuilderForm.controls.email.errors }">
+      <input matInput name="email" formControlName="email" type="text" placeholder="E-Mail" />
       <mat-error>
-        <div *ngIf="formBuilderForm.controls.email.errors?.required">Email is required</div>
+      <div *ngIf="formBuilderForm.value.email.length != 0">
+        <div *ngIf="((submitted || formBuilderForm.controls.email.touched) && formBuilderForm.controls.email.errors)" class="invalid-input"></div>
+      </div>
+      <div *ngIf="formBuilderForm.controls.email.errors?.required">Email is required</div>
       </mat-error>
     </mat-form-field>
 
+
+    <h3>Gender</h3>
+    
     <input type="radio" formControlName="gender" value="male" required> Male
     <input type="radio" formControlName="gender" value="female"required> Female
 
+    <br />
+    
     <mat-form-field class="number">
       <input matInput name="adhaarNumber" formControlName="adhaarNumber"  placeholder="Adhaar Number" [ngClass] = "{'is-invalid': (submitted || formBuilderForm.controls.adhaarNumber.touched) && formBuilderForm.controls.adhaarNumber.errors }" />
       <mat-error>
@@ -97,7 +105,7 @@
 <br />
 <br />
 
-<table class="styled-table" style="margin-left: 5%; margin-top: 20%;">
+<table class="styled-table" style="margin: 10% 15% 10% 15%">
    <thead>
      <th>Name</th>
      <th>Email</th>
