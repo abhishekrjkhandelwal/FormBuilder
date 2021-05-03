@@ -158,7 +158,6 @@ const updateData = async (req, res) => {
     ])
     .then(     
         setData = {
-           name: req.body.formData.name,
            email: req.body.formData.email,
            gender: req.body.formData.gender,
            adhaarNumber: req.body.formData.adhaarNumber,
