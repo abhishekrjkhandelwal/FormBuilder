@@ -30,11 +30,9 @@ const postData = (multer({storage: storage}).single("image"), async (req, res) =
     const user = new schema.User({
         name: req.body.formData.name,
         email: req.body.formData.email,
+        gender: req.body.formData.gender,
         createdAt: req.body.formData.createdAt
     });
-
-    console.log('user', user);
-
     const userDetails = new schema.userDetails({
         name: req.body.formData.name,
         email: req.body.formData.email,
@@ -77,7 +75,7 @@ const getData = async (req, res) => {
                 name: 1,
                 createdAt: 1,
                 email: 1,
-                gender: "$userD.gender",
+                gender: 1,
                 adhaarNumber: "$userD.adhaarNumber",
                 address: "$userD.address",
                 mobileno: "$userD.mobileno",
@@ -148,7 +146,7 @@ const updateData = async (req, res) => {
                 name: 1,
                 createdAt: 1,
                 email: 1,
-                gender: "$userD.gender",
+                gender: 1,
                 adhaarNumber: "$userD.adhaarNumber",
                 address: "$userD.address",
                 mobileno: "$userD.mobileno",
@@ -158,7 +156,6 @@ const updateData = async (req, res) => {
     ])
     .then(     
         setData = {
-           gender: req.body.formData.gender,
            adhaarNumber: req.body.formData.adhaarNumber,
            address: req.body.formData.address,
            mobileno: req.body.formData.mobileno,

@@ -85,24 +85,20 @@ export class FormBuilderComponent implements OnInit {
     this.formBuilderForm.value.createdAt = this.myDate;
 
     
-    if(this.names.includes(name)) {
-           flag = true;
-     }
-    
-    if(!flag || this.names.length == 0) {
-      this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(data => {
-        console.log(data);
-      });
-    } else {
-      console.log('Name is already exists please enter another name');
-    } 
+       if(!this.names.includes(name)) {
+            this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(data => {
+            console.log(data);
+        });
+       } else {
+         console.log("name is already registered please try another user name");
+       }
   }
 
   getData(): void {
      // tslint:disable-next-line: deprecation
       this.formBuilderService.getFormData().subscribe(data => {
         this.formData = data.formdata;
-        console.log(this.formData[0]);
+        console.log('formData', this.formData[0]);
         for(var name of data.formdata) {
            this.names.push(name.name);   
         }

@@ -30,20 +30,17 @@ export class formBuilderDialogPage implements OnInit {
       public adhaarNumber!: string;
       public country!: string;
       public email!: string;
-      public gender!: string;
       public mobileno!: string;
   
       
-      commaSepEmail = (control: AbstractControl): { [key: string]: any } | any => {
-        try {
+      commaSepEmail = (control: AbstractControl): { [key: string]: String } | any => {
+        console.log('control', control.value);
         if (control.value){
-            var emails= control.value.split(',');
+            var emails= control.value.split(', ');
+            console.log('email', emails);
             const forbidden = emails.some((email:any) => Validators.email(new FormControl(email)));
-        console.log(forbidden);
-        return forbidden ? { 'email': { value: control.value.trim() } } : null;
-        }
-        } catch(error) {
-            console.log(error);
+            console.log(forbidden);
+            return forbidden ? { 'email': { value: control.value.trim() } } : null;
         }
       };
 
@@ -52,7 +49,6 @@ export class formBuilderDialogPage implements OnInit {
         // email: new FormControl(['', Validators.compose([
         //     Validators.required, Validators.pattern(this.emailPattern), this.commaSepEmail
         //   ]) ]),
-        gender: new  FormControl('male'),
         adhaarNumber: new FormControl (['', [Validators.required]]),
         country: new FormControl(null),
         //dob: new FormControl(['', [Validators.required]]),
@@ -93,7 +89,6 @@ export class formBuilderDialogPage implements OnInit {
                     console.log(data); 
                     this.adhaarNumber = data.formdata[0].adhaarNumber;
                     this.country = data.formdata[0].country,
-                    this.gender = data.formdata[0].gender
                     this.mobileNumber = data.formdata[0].mobileNumber,
                     this.address = data.formdata[0].address,
                     this.mobileno = data.formdata[0].mobileno

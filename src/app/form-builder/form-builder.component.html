@@ -28,7 +28,7 @@
     <h3>Gender</h3>
     
     <input type="radio" formControlName="gender" value="male" required> Male
-    <input type="radio" formControlName="gender" value="female"required> Female
+    <input type="radio" formControlName="gender" value="female" required> Female
 
     <br />
     
@@ -71,11 +71,11 @@
      <br />
      <br />
 
-    <!-- <mat-form-field> 
-       <input formControlName="dob" type="date" [value]="dob | date: 'MM/dd/yyyy'" class="form-control" />
-    </mat-form-field> -->
-    <!-- <br /> 
-    <br /> -->
+       <input type="date"  class="form-control" />
+    
+
+    <br /> 
+    <br />
 
      <select id="country" formControlName="country">
        <option *ngFor="let c of countries" [ngValue]="c">{{ c }}</option>
@@ -105,7 +105,7 @@
 <br />
 <br />
 
-<table class="styled-table" style="margin: 10% 15% 10% 15%">
+<table class="styled-table" style="margin: 20% 15% 20% 15%">
    <thead>
      <th>Name</th>
      <th>Email</th>
