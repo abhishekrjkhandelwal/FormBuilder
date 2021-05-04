@@ -71,11 +71,10 @@
      <br />
      <br />
 
-       <input type="date"  class="form-control" />
+     <input type="date"  class="form-control" id="birthDate" [ngModel]="birthDate | date: 'yyyy-MM-dd'" formControlName="birthDate" name="birthDate" />
     
-
-    <br /> 
-    <br />
+     <br /> 
+     <br />
 
      <select id="country" formControlName="country">
        <option *ngFor="let c of countries" [ngValue]="c">{{ c }}</option>
@@ -98,7 +97,6 @@
     <button mat-raised-button color="primary" (click)="postFormData();" [disabled]="(formBuilderForm.value.length === 0)" type="submit">Send</button>
   </form>
 
-
 </mat-card>
 </div>
 
@@ -110,6 +108,7 @@
      <th>Name</th>
      <th>Email</th>
      <th>Gender</th>
+     <th>BirthDate</th>
      <th>Adhaar Number</th>
      <th>Country</th>
      <th>Address</th>
@@ -124,6 +123,7 @@
         <td>{{ formdata.name }}</td>
         <td>{{ formdata.email }}</td>
         <td>{{ formdata.gender }}</td>
+        <td>{{ formdata.birthDate }}</td>
         <td>{{ formdata.adhaarNumber }}</td>
         <td>{{ formdata.address }}</td>
         <td>{{ formdata.mobileno }}</td>

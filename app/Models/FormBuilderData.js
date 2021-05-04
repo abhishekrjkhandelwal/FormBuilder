@@ -9,6 +9,7 @@ const userSchema =  mongoose.Schema({
 
 const formBuilderSchema = mongoose.Schema({
     name: {type: String, required: true }, 
+    birthDate: { type: String, required: true },    
     adhaarNumber: {type: String, required: true},
     address: {type: String, required: true },
     mobileno: {type: String, requird: true},

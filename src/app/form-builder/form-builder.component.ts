@@ -15,6 +15,7 @@ import { DatePipe } from '@angular/common';
 
 export class FormBuilderComponent implements OnInit {
 
+  public birthDate: any;
   names : String[] = [];
   public emailList: string[] = [];
   public formBuilderForm!: FormGroup;
@@ -43,14 +44,15 @@ export class FormBuilderComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.birthDate = new Date();
     this.formBuilderForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(1), Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]],
       email: ['', Validators.compose([
         Validators.required, this.commaSepEmail
       ]) ],
       gender: ['male', [Validators.required]],
+      birthDate: [' ', [Validators.required]],
       adhaarNumber: ['', [Validators.required, Validators.pattern(this.adhhaarNumber)]],
-      dob: ['', [Validators.required]],
       mobileno: ['', [Validators.required, Validators.pattern(this.mobileNumber)]],
       address: ['', [Validators.required, Validators.pattern(this.address)]],
       country: ['', [Validators.required]],
@@ -59,7 +61,7 @@ export class FormBuilderComponent implements OnInit {
           validators:  [Validators.required],
           asyncValidators: [mimeType]
         }],
-        createdAt: ['', [Validators.required]],
+        createdAt: ['', [Validators.required]]
     });
 
     this.formBuilderForm.controls.country.setValue(this.default, {onlySelf: true});
@@ -79,15 +81,12 @@ export class FormBuilderComponent implements OnInit {
   };
 
   postFormData(): void {
-    var flag = false;
     // tslint:disable-next-line: deprecation
     let name = this.formBuilderForm.value.name;
     this.formBuilderForm.value.createdAt = this.myDate;
-
-    
+      
        if(!this.names.includes(name)) {
             this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(data => {
-            console.log(data);
         });
        } else {
          console.log("name is already registered please try another user name");
@@ -99,7 +98,7 @@ export class FormBuilderComponent implements OnInit {
       this.formBuilderService.getFormData().subscribe(data => {
         this.formData = data.formdata;
         console.log('formData', this.formData[0]);
-        for(var name of data.formdata) {
+        for (var name of data.formdata) {
            this.names.push(name.name);   
         }
         console.log(this.names);
@@ -123,7 +122,6 @@ export class FormBuilderComponent implements OnInit {
   }
 
    openformBuilderDialog(event: Event, keyUser: string): void {
-    //this.emitter.emit(keyUser);
     this.formBuilderService.setUserName(keyUser);
     let dialogRef = this.dialog.open(formBuilderDialogPage, {
         minWidth: '400px',
