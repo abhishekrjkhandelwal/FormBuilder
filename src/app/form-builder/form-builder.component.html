@@ -71,11 +71,13 @@
      <br />
      <br />
 
+     <h3>Date of Birth</h3>
      <input type="date"  class="form-control" id="birthDate" [ngModel]="birthDate | date: 'yyyy-MM-dd'" formControlName="birthDate" name="birthDate" />
     
      <br /> 
      <br />
 
+     <h3>Country</h3>
      <select id="country" formControlName="country">
        <option *ngFor="let c of countries" [ngValue]="c">{{ c }}</option>
      </select>
@@ -119,7 +121,7 @@
    </thead>
 
    <tbody>
-     <tr *ngFor = "let formdata of formData">
+     <tr *ngFor = "let formdata of formData;let i = index">
         <td>{{ formdata.name }}</td>
         <td>{{ formdata.email }}</td>
         <td>{{ formdata.gender }}</td>
@@ -130,7 +132,7 @@
         <td>{{ formdata.country }}</td>
         <td>{{ formdata.createdAt }}</td>
         <td><button id="update" (click)="openformBuilderDialog($event, formdata.name)">Update</button></td>
-        <td><button id="delete" (click)="deleteFormDataByName($event, formdata.name)" >Delete</button></td>   
+        <td><button id="delete" (click)="deleteFormDataByName($event, formdata.name, i)" >Delete</button></td>   
      </tr>
    </tbody>
 </table>

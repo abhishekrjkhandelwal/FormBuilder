@@ -5,6 +5,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { formBuilderDialogPage } from './formBuilderDialogBox.component';
 import { mimeType } from './mime-type.validator';
 import { DatePipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-form-builder',
@@ -39,11 +40,13 @@ export class FormBuilderComponent implements OnInit {
     private formBuilderService: FormBuilderService,
     private dialog: MatDialog,
     private datePipe:  DatePipe,
+    private router: Router,
   ) { 
     this.myDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
   }
 
   ngOnInit(): void {
+    this.getData();
     this.birthDate = new Date();
     this.formBuilderForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.maxLength(20), Validators.minLength(1), Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]],
@@ -63,10 +66,7 @@ export class FormBuilderComponent implements OnInit {
         }],
         createdAt: ['', [Validators.required]]
     });
-
     this.formBuilderForm.controls.country.setValue(this.default, {onlySelf: true});
-    
-    this.getData();
   }
 
   commaSepEmail = (control: AbstractControl): { [key: string]: String } | any => {
@@ -80,22 +80,30 @@ export class FormBuilderComponent implements OnInit {
     }
   };
 
-  postFormData(): void {
+  reloadComponent() {
+    let currentUrl = this.router.url;
+        this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+        this.router.onSameUrlNavigation = 'reload';
+        this.router.navigate([currentUrl]);
+    }
+
+   postFormData() {
     // tslint:disable-next-line: deprecation
     let name = this.formBuilderForm.value.name;
     this.formBuilderForm.value.createdAt = this.myDate;
       
        if(!this.names.includes(name)) {
-            this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(data => {
+              this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(async data => {
+              this.reloadComponent();
         });
        } else {
          console.log("name is already registered please try another user name");
        }
   }
 
-  getData(): void {
+  getData() {
      // tslint:disable-next-line: deprecation
-      this.formBuilderService.getFormData().subscribe(data => {
+        this.formBuilderService.getFormData().subscribe(data => {
         this.formData = data.formdata;
         console.log('formData', this.formData[0]);
         for (var name of data.formdata) {
@@ -130,14 +138,9 @@ export class FormBuilderComponent implements OnInit {
      dialogRef.afterClosed().subscribe();
    }
 
-   deleteFormDataByName(event: Event, keyUser: string) {
+   deleteFormDataByName(event: Event, keyUser: string, index: number) {
       this.formBuilderService.deleteFormDataByName(keyUser).subscribe(data => {
-        console.log('formData', data);
-        var index = this.formData.indexOf(keyUser, 0);
-        if (index > -1)
-        {
-           this.formData.splice(index, -1);
-        }
+        this.formData.splice(index, 1);
       });
    }
 }

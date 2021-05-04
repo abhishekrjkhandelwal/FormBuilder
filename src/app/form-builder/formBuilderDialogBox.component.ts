@@ -45,10 +45,6 @@ export class formBuilderDialogPage implements OnInit {
       };
 
       formBuilderForm = new FormGroup({
-        //name: new FormControl(['', [Validators.required, Validators.maxLength(20),  Validators.pattern(/^\S+[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/)]]),
-        // email: new FormControl(['', Validators.compose([
-        //     Validators.required, Validators.pattern(this.emailPattern), this.commaSepEmail
-        //   ]) ]),
         adhaarNumber: new FormControl (['', [Validators.required]]),
         country: new FormControl(null),
         //dob: new FormControl(['', [Validators.required]]),

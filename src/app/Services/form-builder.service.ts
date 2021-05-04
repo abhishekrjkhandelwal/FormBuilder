@@ -49,7 +49,7 @@ export class FormBuilderService {
     }
     
     deleteFormDataByName(name: string) {
-      return this.http.delete(this.baseUrl + '/delete-form-data-by-name?name=' + name)
+      return this.http.delete(this.baseUrl + '/delete-form-data-by-name?name='+name)
       .pipe(tap(data => JSON.stringify(data), catchError(this.errorHandler)));
     }
 
