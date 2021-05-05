@@ -1,5 +1,9 @@
+mat-slide-toggle {
+  float: right;
+}
+
 mat-form-field {
-    width: 100%;
+    width: 70%;
   }
   
   mat-spinner {
@@ -7,8 +11,8 @@ mat-form-field {
   }
   
   .main-div {
-    margin-top: 20%;
-    height: 45vh;
+    margin-top: 2%;
+    height: 75vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,7 +20,7 @@ mat-form-field {
   
   @media (max-width: 700px) {
     .main-div {
-      height: 65vh;
+      height: 95vh;
       display: flex;
       justify-content: center;
       align-items: center;

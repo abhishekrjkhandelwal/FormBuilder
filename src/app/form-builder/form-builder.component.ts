@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators, FormArray } from '@angular/forms';
 import { FormBuilderService } from '../Services/form-builder.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 export class FormBuilderComponent implements OnInit {
 
   public birthDate: any;
-  names : String[] = [];
+  adhaarNumber : String[] = [];
   public emailList: string[] = [];
   public formBuilderForm!: FormGroup;
   public submitted = false;
@@ -31,9 +31,6 @@ export class FormBuilderComponent implements OnInit {
   adhhaarNumber = /^[0-9]{4}[ -]?[0-9]{4}[ -]?[0-9]{4}$/;
   mobileNumber = /[0-9\+\-\ ]/;
   address = /^[#.0-9a-zA-Z\s,-]+$/;
-
-  // @Output() emitter:EventEmitter<string>
-  //      = new EventEmitter<string>()
 
   constructor(
     private formBuilder: FormBuilder,
@@ -88,16 +85,15 @@ export class FormBuilderComponent implements OnInit {
     }
 
    postFormData() {
-    // tslint:disable-next-line: deprecation
-    let name = this.formBuilderForm.value.name;
-    this.formBuilderForm.value.createdAt = this.myDate;
+        let name = this.formBuilderForm.value.name;
+        this.formBuilderForm.value.createdAt = this.myDate;
       
-       if(!this.names.includes(name)) {
+        if(!this.adhaarNumber.includes(name)) {
               this.formBuilderService.postFormData(this.formBuilderForm.value, this.formBuilderForm.value.image).subscribe(async data => {
               this.reloadComponent();
         });
        } else {
-         console.log("name is already registered please try another user name");
+         console.log("adhaarNumber is already registered please try another");
        }
   }
 
@@ -105,11 +101,10 @@ export class FormBuilderComponent implements OnInit {
      // tslint:disable-next-line: deprecation
         this.formBuilderService.getFormData().subscribe(data => {
         this.formData = data.formdata;
-        console.log('formData', this.formData[0]);
-        for (var name of data.formdata) {
-           this.names.push(name.name);   
+        console.log('formData', this.formData);
+        for (var adhaarNumber of data.formdata) {
+           this.adhaarNumber.push(adhaarNumber.adhaarNumber);   
         }
-        console.log(this.names);
      });
   }
 

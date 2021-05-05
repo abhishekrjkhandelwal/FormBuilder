@@ -90,7 +90,6 @@ const getData = async (req, res) => {
             formdata: documents.map(doc => {
                 return {
                     message: "fetch form data",
-                    _id: doc._id,
                     name: doc.name,
                     email: doc.email,
                     gender: doc.gender,
@@ -158,9 +157,13 @@ const updateData = async (req, res) => {
     ])
     .then(     
         setData = {
+           name: req.body.formData.name,
+           email: req.body.formData.email,
+           gender: req.body.formData.gender, 
            adhaarNumber: req.body.formData.adhaarNumber,
            address: req.body.formData.address,
            mobileno: req.body.formData.mobileno,
+           birthDate: req.body.formData.birthDate,
            country: req.body.formData.country,
         },
          
