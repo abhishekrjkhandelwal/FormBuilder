@@ -6,7 +6,6 @@ import { DatePipe } from '@angular/common';
 
 
 @Component ({
-    // tslint:disable-next-line: component-selector
     selector: 'formBuilderDialogPage',
     templateUrl: './formBuilderDialogBox.component.html',
     styleUrls: ['./formBuilderDialogBox.component.css'],

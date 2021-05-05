@@ -31,10 +31,11 @@ const postData = (multer({storage: storage}).single("image"), async (req, res) =
         name: req.body.formData.name,
         email: req.body.formData.email,
         gender: req.body.formData.gender,
-        createdAt: req.body.formData.createdAt
+        createdAt: req.body.formData.createdAt,
+        userdetails: "fid",
     });
-    const userDetails = new schema.userDetails({
-        name: req.body.formData.name,
+    const userDetails = new schema.userDetails({    
+        fid: "fid",
         birthDate: req.body.formData.birthDate,
         email: req.body.formData.email,
         adhaarNumber: req.body.formData.adhaarNumber,
@@ -61,9 +62,9 @@ const getData = async (req, res) => {
             $lookup:
             {
                 from: "userDetails",
-                localField: "name",
-                foreignField: "name",
-                as: "userD"
+                localField: "userdetails",
+                foreignField: "fid",
+                as: "creators"
             }
         },
         {
@@ -134,9 +135,9 @@ const updateData = async (req, res) => {
             $lookup:
             {
                 from: "userDetails",
-                localField: "name",
-                foreignField: "name",
-                as: "userD"
+                localField: "userdetails",
+                foreignField: "fid",
+                as: "creators"
             }
         },
         {
@@ -167,7 +168,7 @@ const updateData = async (req, res) => {
            country: req.body.formData.country,
         },
          
-       await schema.userDetails.findOneAndUpdate({ name: user.name},
+       await schema.User.findOneAndUpdate({ name: user.name},
             {$set: setData},
             {new : true},
             (err, doc) => {
